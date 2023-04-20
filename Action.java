@@ -1,4 +1,4 @@
-package com.seseok.Action;
+package com.seseok.Commons;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

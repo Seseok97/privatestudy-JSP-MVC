@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.seseok.Commons.Action;
+import com.seseok.Commons.ActionForward;
+
 /**
  * 
  * Controller > Servlet 구현
@@ -18,9 +21,11 @@ public class MemberFrontController extends HttpServlet {
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		System.out.println("doProcess() 호출");
-		// URL: http://localhost:8088/EL-MVC/*.me
-		// URL: http://localhost:8088/EL-MVC/MemberJoin.me
-		// URI: /EL-MVC/*.me // > 프로토콜, 포트번호 없음
+		// address
+		// INDEX: http://localhost:8088/EL-MVC/index.jsp
+		// 회원가입: http://localhost:8088/EL-MVC/MemberJoin.me
+		// 로그인: http://localhost:8088/EL-MVC/MemberLogin.me
+		// 메인: http://localhost:8088/EL-MVC/Main.me
 		
 		// 3가지 파트의 동작 구현 메서드
 		//////////////////////////////////1. 가상주소 계산//////////////////////////////////////////////
@@ -74,6 +79,60 @@ public class MemberFrontController extends HttpServlet {
 			}// t-c end
 			
 		} // MemberJoinAction.me end
+		// 로그인동작 > 1) 로그인 페이지로 이동
+		else if(command.equals("/MemberLogin.me")) {
+			System.out.println("C: /MemberLogin.me 호출!");
+			System.out.println("C: DB사용 X, view 페이지(정보입력 페이지) 이동 ! > 패턴 1번!");
+			
+			// 패턴 1
+			forward = new ActionForward();
+			forward.setPath("./member/loginForm.jsp");
+			forward.setRedirect(false); // .jsp의 주소를 노출시켜선 안된다 !! >> forwarding 방식으로 이동.
+			
+		}// else if(./MemberLogin.me) end
+		// 로그인동작 > 2) 로그인 실행
+		else if(command.equals("/MemberLoginAction.me")) {
+			System.out.println("C: /MemberLogin.me 호출!");
+			System.out.println("C: DB사용 O, 페이지 이동 ! > 패턴 2번!");
+			
+			// MemberLoginAction() 객체 생성
+			action = new MemberLoginAction(); // UPCASTING
+			
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}// t-c end
+		}// else if(./MemberLoginAction.me) end
+		// 메인화면 출력
+		else if(command.equals("/Main.me")) {
+			System.out.println("C: /Main.me 호출");
+			System.out.println("C: DB사용 X, view 페이지 이동 ! > 패턴 1번!");
+			
+			// 패턴1
+			forward = new ActionForward();
+			forward.setPath("./member/main.jsp");
+			forward.setRedirect(false);
+			// request영역객체의 정보 이용을 위하여 false로 이동.
+		}// else if(./Main.me) end
+		
+		// 로그아웃
+		
+		// 회원정보조회 > 1 /2 나누지 않고한번에 해야함.
+		else if(command.equals("/MemberInfo.me")) {
+			System.out.println("C: /MemberInfo.me 호출");
+			System.out.println("C: DB사용 O, view 페이지 이동&출력 ! > 패턴 3번!");
+			
+			// MemberInfoAction() 객체 생성
+			action = new MemberInfoAction(); // UPCASTING
+			
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}// t-c end
+		}// else if(./MemberInfo.me) end
+		
 		
 		System.out.println("2. 가상주소 매핑 >> 끝");
 		System.out.println("\n\n");

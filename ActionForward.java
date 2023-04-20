@@ -1,4 +1,4 @@
-package com.seseok.Action;
+package com.seseok.Commons;
 
 public class ActionForward {
 	// 티켓을 생성하는 클래스.

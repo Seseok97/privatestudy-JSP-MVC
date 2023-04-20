@@ -67,6 +67,74 @@ public class MemberDAO {
 		} // t-c-f end
 	}// memberJoin() method end
 	
+	// 로그인 - memberLogin()
+	public int memberLogin(MemberDTO dto) {
+		int result = -1;
+		try {
+			con = getCon();
+			sql = "select pw from itwill_member where id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, dto.getId());
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				if(dto.getPw().equals(rs.getString("pw"))) {
+					// 정상 로그인
+					result = 1;
+				}else {
+					// pw 불일치
+					result = 0;
+				}// i-e end
+			}else {
+				// id 불일치
+				result = -1;
+			}//i-e end
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			closeDB();
+		}// tcf end
+		return result;
+	}// memberLogin() method end
+	
+	// 회원정보 조회 - getMember()
+	public MemberDTO getMember(String id) {
+		MemberDTO dto = null;
+		
+		// 동작
+		// DB 불러오고, dto안에 값넣기.
+		// memberInfo.jsp파일 만들어서 dto내용 출력하기.
+		
+		try {
+			con = getCon();
+			sql="select * from itwill_member where id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			
+			dto = new MemberDTO();
+			if(rs.next()) {
+				dto.setId(rs.getString("id"));
+				dto.setPw(rs.getString("pw"));
+				dto.setName(rs.getString("name"));
+				dto.setGender(rs.getString("gender"));
+				dto.setAge(rs.getInt("age"));
+				dto.setEmail(rs.getString("email"));
+				dto.setRegdate(rs.getDate("regdate"));
+				
+				System.out.println("DAO: DTO안에 정보 저장 완료!");
+			}// rsnext if end
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			closeDB();
+		}// tcf end
+
+		return dto;
+	}// getMember() method end
+	
+	
 
 	
 	
