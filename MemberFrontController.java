@@ -117,6 +117,19 @@ public class MemberFrontController extends HttpServlet {
 		}// else if(./Main.me) end
 		
 		// 로그아웃
+		else if(command.equals("/MemberLogoutAction.me")) {
+			System.out.println("C: /MemberLogoutAction.me 호출");
+			System.out.println("C: DB사용 O, view 페이지 이동 ! > 패턴 2번!"); 
+			// 실제로 DB나 DAO 사용은 하지 않으나, 처리를 진행하기 때문에 패턴2로 분류한다.
+			
+			// MemberLogoutAction() 객체 생성
+			action = new MemberLogoutAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}// t-c end
+		}// else if(./MemberLogoutAction.me) end
 		
 		// 회원정보조회 > 1 /2 나누지 않고한번에 해야함.
 		else if(command.equals("/MemberInfo.me")) {

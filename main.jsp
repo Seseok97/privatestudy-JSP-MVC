@@ -20,7 +20,7 @@
 	<br>
 
 <!-- 로그아웃 버튼 -->
-	<input type="button" value="Log Out" onclick="location.href='./MemberLogOutAction.me';">
+	<input type="button" value="Log Out" onclick="location.href='./MemberLogoutAction.me';">
 	<hr>
 
 <!-- 회원정보와 관련된 버튼 -->
