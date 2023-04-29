@@ -92,7 +92,7 @@ public class MemberFrontController extends HttpServlet {
 		}// else if(./MemberLogin.me) end
 		// 로그인동작 > 2) 로그인 실행
 		else if(command.equals("/MemberLoginAction.me")) {
-			System.out.println("C: /MemberLogin.me 호출!");
+			System.out.println("C: /MemberLoginAction.me 호출!");
 			System.out.println("C: DB사용 O, 페이지 이동 ! > 패턴 2번!");
 			
 			// MemberLoginAction() 객체 생성
@@ -145,6 +145,33 @@ public class MemberFrontController extends HttpServlet {
 				e.printStackTrace();
 			}// t-c end
 		}// else if(./MemberInfo.me) end
+		
+		// 회원 탈퇴 페이지 > 1) 비밀번호 확인 페이지로 이동
+		else if(command.equals("/MemberDelete.me")) {
+			System.out.println("C: /MemberDelete.me 호출!");
+			System.out.println("C: DB사용 X, view 페이지(정보입력 페이지) 이동 ! > 패턴 1번!");
+			
+			// 패턴 1
+			forward = new ActionForward();
+			forward.setPath("./member/memberDelete.jsp");
+			forward.setRedirect(false);
+			
+		}// else if(./MemberDelete.me) end
+		
+		// 회원 탈퇴
+		else if(command.equals("/MemberDeleteAction.me")) {
+			System.out.println("C: /MemberDeleteAction.me 호출");
+			System.out.println("C: DB사용 O, view 페이지 이동 ! > 패턴 2번!"); 
+			// 실제로 DB나 DAO 사용은 하지 않으나, 처리를 진행하기 때문에 패턴2로 분류한다.
+			
+			// MemberLogoutAction() 객체 생성
+			action = new MemberDeleteAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}// t-c end
+		}// else if(./MemberDelete.me) end
 		
 		
 		System.out.println("2. 가상주소 매핑 >> 끝");

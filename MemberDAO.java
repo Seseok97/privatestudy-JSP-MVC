@@ -134,6 +134,41 @@ public class MemberDAO {
 		return dto;
 	}// getMember() method end
 	
+	// 회원탈퇴 동작 - deleteMember()
+	public int deleteMember(String id, String pw) {
+		int result = 0;
+		try {
+			con = getCon();
+			sql = "select pw from itwill_member where id=?";
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				if(rs.getString("pw").equals(pw)) {
+					// 본인확인 성공
+					sql = "delete from itwill_member where id=? ";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, id);
+					pstmt.executeUpdate();
+					result = 1;
+				}else {
+					// 비밀번호 오류
+					result = -1;
+				}// i-e end
+			}else {
+				// 아이디정보 없음
+			}// i-e end
+			System.out.println(" M : 회원탈퇴동작 실행 완료.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeDB();
+		}// tcf end
+		return result;
+	}// deleteMember() method end
 	
 
 	
